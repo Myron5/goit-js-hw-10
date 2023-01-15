@@ -1,6 +1,4 @@
-* {
-  box-sizing: border-box;
-}
+@import '../../node_modules/modern-normalize/modern-normalize.css';
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
@@ -16,5 +14,76 @@ body {
   font: inherit;
   padding: 8px;
   max-width: 320px;
-  margin-bottom: 16px;
+
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.country-info {
+  margin-left: 20px;
+}
+
+.list {
+  max-width: 200px;
+
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  .item {
+    padding: 8px;
+
+    &:first-of-type {
+      margin-top: 10px;
+    }
+
+    &-img {
+      transform: translate(0, 20%);
+      max-width: 20px;
+
+      &-thumb {
+        max-width: 20px;
+        display: inline;
+      }
+    }
+
+    &-title {
+      display: inline;
+      font-size: 13px;
+    }
+  }
+}
+
+.card {
+  max-width: 200px;
+  padding: 8px;
+
+  &-img {
+    transform: translate(0, 20%);
+    max-width: 20px;
+
+    &-thumb {
+      max-width: 20px;
+      display: inline;
+    }
+  }
+
+  &-title {
+    display: inline;
+
+    font-size: 13px;
+  }
+
+  &-text {
+    font-size: 10px;
+
+    &:first-of-type {
+      margin-top: 20px;
+    }
+
+    &-bold {
+      font-size: 11px;
+      font-weight: 700;
+    }
+  }
 }
