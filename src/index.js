@@ -1,8 +1,9 @@
 import Notiflix from 'notiflix';
 import debounce from 'lodash.debounce';
 
+import { fetchCountries } from './fetchCountries';
+
 const DEBOUNCE_DELAY = 300;
-const BASE_URL = 'https://restcountries.com/v3.1/name';
 
 const inpotBoxRef = document.querySelector('#search-box');
 const countryInfoRef = document.querySelector('.country-info');
@@ -11,32 +12,26 @@ inpotBoxRef.addEventListener(
   'input',
   debounce(() => {
     const val = inpotBoxRef.value.trim();
-    if (val) fetchCountries(val);
+    if (val)
+      fetchCountries(val)
+        .then(data => displayData(data))
+        .catch(err => {
+          if (err.message == 404) {
+            Notiflix.Notify.failure('Oops, there is no country with that name');
+            countryInfoRef.innerHTML = '';
+          } else console.log(err.message);
+        });
     else countryInfoRef.innerHTML = '';
   }, DEBOUNCE_DELAY)
 );
 
-function fetchCountries(name) {
-  const options = `${name}?fields=name,capital,population,flags,languages`;
-  return fetch(`${BASE_URL}/${options}`)
-    .then(resp => {
-      if (!resp.ok) throw new Error(resp.status);
-      return resp.json();
-    })
-    .then(data => displayData(data))
-    .catch(err => {
-      if (err.message == 404)
-        Notiflix.Notify.failure('Oops, there is no country with that name');
-      else console.log(err.message);
-    });
-}
-
 function displayData(data) {
-  if (data.length >= 10)
+  if (data.length >= 10) {
     Notiflix.Notify.info(
       'Too many matches found. Please enter a more specific name.'
     );
-  else if (data.length == 1) {
+    countryInfoRef.innerHTML = '';
+  } else if (data.length == 1) {
     createOnceMarkup(data[0]);
   } else {
     createListMarkup(data);
